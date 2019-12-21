@@ -7,14 +7,19 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin'); /
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin'); //压缩 js
 
 module.exports = {
-    mode:'production',
+    mode: 'production',
     entry: {
         index: './src/index.js'
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'js/[name].[hash].js',
+        chunkFilename: 'js/[name]:[chunkhash:8].js', // 公共模块命名规则 
         publicPath: '/'
+    },
+    devServer: {
+        contentBase: './dist', // 开发服务器配置
+        hot: true // 热加载
     },
     module: {
         // noParse: function (content) { return /jquery|lodash/.test(content); },
@@ -76,6 +81,23 @@ module.exports = {
             exclude: /(node_modules|bower_components)/,
         }]
     },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    name: "vendor",
+                    test: /[\\/]node_modules[\\/]/,
+                    chunks: 'all',
+                    priority: 10, // 优先级
+                },
+                styles: {
+                    name: 'styles',
+                    test: /\.css$/,
+                    chunks: 'all'
+                }
+            }
+        }
+    },
     resolve: {
         alias: {
             "@": path.resolve(__dirname, 'src/')
@@ -111,6 +133,8 @@ module.exports = {
             cache: true,
             parallel: true,
             sourceMap: true
-        })
+        }),
+        new webpack.NamedModulesPlugin(), // 热加载使用
+        new webpack.HotModuleReplacementPlugin() // 热加载使用
     ],
 }

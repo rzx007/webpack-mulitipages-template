@@ -1,0 +1,5 @@
+.box{
+    display: flex;
+    color: red;
+    background: url('./../assets/abc.png');
+}

@@ -10,4 +10,3 @@ function createElement() {
   return greet;
 };
 document.body.appendChild(createElement());
-$('.box').height(100);

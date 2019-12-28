@@ -21,6 +21,7 @@ module.exports = {
         contentBase: './dist', // 开发服务器配置
         hot: true // 热加载
     },
+    devtool: 'inline-source-map',
     module: {
         // noParse: function (content) { return /jquery|lodash/.test(content); },
         rules: [{

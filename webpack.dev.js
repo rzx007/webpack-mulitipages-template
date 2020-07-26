@@ -9,7 +9,7 @@ let devConfig = {
     devServer: {
         contentBase: path.join(__dirname, 'dist'),
         hot: true,
-        open: true
+        open: false
     },
     module: {
         rules: [{
@@ -17,7 +17,9 @@ let devConfig = {
             use: [
                 'style-loader', {
                     loader: "css-loader",
-                    options: { sourceMap: true }
+                    options: {
+                        sourceMap: true
+                    }
                 }, {
                     loader: "postcss-loader",
                     options: {
@@ -29,9 +31,11 @@ let devConfig = {
                             // require('postcss-cssnext')()
                         ]
                     }
-                }, {//处理 scss或sass
+                }, { //处理 scss或sass
                     loader: "sass-loader",
-                    options: { sourceMap: true }
+                    options: {
+                        sourceMap: true
+                    }
                 }
             ]
         }]

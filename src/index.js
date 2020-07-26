@@ -1,12 +1,21 @@
-import './style/index.css';
-import './style/leo.scss';
-import $ from'jquery';
-
-function createElement() {
-  var greet = document.createElement('div');
-  greet.textContent = "Hi there and greetings!";
-  greet.className = 'box';
-  
-  return greet;
-};
-document.body.appendChild(createElement());
+// observe compile watcher 关联器 入口
+ import "@/style/index.css";
+ import "@/style/leo.scss";
+import SelfVue from "@/vue";
+new SelfVue({
+  el: '#app',
+  data: {
+    title: 'hello world',
+    name: 'rzx'
+  },
+  methods: {
+    clickMe: function () {
+      this.title = 'hello world';
+    }
+  },
+  mounted: function () {
+    window.setTimeout(() => {
+      this.title = '你好';
+    }, 1000);
+  }
+});

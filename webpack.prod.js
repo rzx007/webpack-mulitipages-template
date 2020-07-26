@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); //打包成单独的 CSS 文件
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin'); //压缩 CSS
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin'); //压缩 js
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin //展示出打包后的各个bundle所依赖的模块
 const merge = require('webpack-merge'); // 合并
 const common = require('./webpack.common.js');
 
@@ -11,8 +12,9 @@ let prodConfig = {
     module: {
         rules: [{
             test: /\.(sc|c|sa)ss$/,
-            use: [
-                { loader: MiniCssExtractPlugin.loader, },
+            use: [{
+                    loader: MiniCssExtractPlugin.loader,
+                },
                 {
                     loader: "css-loader",
                     options: {
@@ -36,6 +38,21 @@ let prodConfig = {
             ]
         }]
     },
+    // optimization: {
+    //     splitChunks: {
+    //         chunks: 'initial',
+    //         automaticNameDelimiter: '.',
+    //         cacheGroups: {
+    //             vendors: {
+    //                 test: /[\\/]node_modules[\\/]/,
+    //                 priority: 1
+    //             }
+    //         }
+    //     },
+    //     runtimeChunk: {
+    //         name: entrypoint => `manifest.${entrypoint.name}`
+    //     }
+    // },
     plugins: [
         // 单独提取css为单独文件
         new MiniCssExtractPlugin({
@@ -50,7 +67,7 @@ let prodConfig = {
             parallel: true,
             sourceMap: true
         }),
-      
+        new BundleAnalyzerPlugin(),
     ],
 }
 module.exports = merge(common, prodConfig)
